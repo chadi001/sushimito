@@ -1,0 +1,27 @@
+name: Sushi original photo availability
+on:
+  push:
+    paths: ['.github/workflows/assitant-sushi-source-check.yml']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check originals without modifying existing sites
+        run: |
+          python3 - <<'PY'
+          import urllib.request,re,json
+          base='https://mito-sushi-assistant.netlify.app/'
+          for name in ['data.js','app.js']:
+            try:
+              text=urllib.request.urlopen(base+name,timeout=15).read().decode()
+              print('FILE',name,'PREFIX',text[:3000])
+              paths=sorted(set(re.findall(r'''[\"']([^\"']+\.(?:webp|jpg|png|json))[\"']''',text)))
+              print('IMAGE_PATHS',json.dumps(paths))
+            except Exception as e: print(name,str(e))
+          for name in ['sources/1000040066.webp','sources/1000040066.jpg','photos/1000040066.webp','photos/p001.webp']:
+            try:
+              r=urllib.request.urlopen(base+name,timeout=15); print('TEST',name,r.status,r.headers.get('Content-Type'),len(r.read()))
+            except Exception as e: print('TEST',name,str(e))
+          PY
