@@ -1,0 +1,46 @@
+name: Inspect sushi assistant source assets
+on:
+  push:
+    paths:
+      - '.github/workflows/assitant-sushi-assets.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect existing public assistant
+        run: |
+          mkdir -p source-inspection
+          python3 - <<'PY'
+          import urllib.request, json, re
+          from pathlib import Path
+          from urllib.parse import urljoin, urlparse
+          base='https://mito-sushi-assistant.netlify.app/'
+          out=Path('source-inspection'); queue=['','app.js','recipes.json','records.js','data.js','glasses.html']; done=set(); report=[]
+          while queue and len(done)<35:
+            path=queue.pop(0)
+            if path in done: continue
+            done.add(path)
+            url=urljoin(base,path)
+            if urlparse(url).netloc!=urlparse(base).netloc: continue
+            try:
+              with urllib.request.urlopen(url,timeout=25) as r: raw=r.read(); ct=r.headers.get('Content-Type','')
+              if not any(s in ct for s in ['text','json','javascript']): continue
+              text=raw.decode('utf-8','replace'); name=(path or 'index.html').replace('/','__')
+              (out/name).write_text(text)
+              report.append({'path':path,'bytes':len(raw),'type':ct})
+              for p in re.findall(r'''(?:src|href)=["']([^"']+)["']''',text):
+                if p.endswith(('.js','.json','.css','.webmanifest')) and not p.startswith(('http','data:')):queue.append(p)
+              for p in re.findall(r'''["']([^"'\n]+\.json)["']''',text):
+                if len(p)<100 and not p.startswith(('http','data:')):queue.append(p)
+            except Exception as e: report.append({'path':path,'error':str(e)})
+          (out/'report.json').write_text(json.dumps(report,indent=2))
+          print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sushi-source-inspection
+          path: source-inspection/
+          retention-days: 1
