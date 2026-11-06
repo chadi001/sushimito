@@ -1,0 +1,35 @@
+name: Verify sushi review portal
+on:
+  push:
+    paths: ['assitant-sushi/index.html','assitant-sushi/reader-sw.js','.github/workflows/assitant-sushi-portal-verify.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify portal availability
+        run: |
+          python3 - <<'PY'
+          import urllib.request,time
+          root='https://chadi001.github.io/sushimito/assitant-sushi/'
+          for attempt in range(12):
+            try:
+              r=urllib.request.urlopen(root,timeout=15)
+              html=r.read().decode('utf-8')
+              w=urllib.request.urlopen(root+'reader-sw.js',timeout=15)
+              worker=w.read().decode('utf-8')
+              assert r.status==200 and w.status==200
+              assert 'filesInZip' in html and '80345d32ca296' in html
+              assert 'mito-validation-bundle-80345d32ca296' in worker
+              print('VERIFIED_PORTAL_URL='+root)
+              print('HTTP_STATUS=200')
+              print('WORKER_STATUS=200')
+              print('MODE=local ZIP import; original photographs are not hosted on GitHub')
+              print('APP_TEST=browser import of the user ZIP still requires user validation')
+              break
+            except Exception as e:
+              if attempt==11:raise
+              print('Pages publication not ready:',type(e).__name__,str(e));time.sleep(10)
+          PY
