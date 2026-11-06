@@ -1,0 +1,37 @@
+name: Verify Sushi Assistant GitHub Pages
+on:
+  push:
+    paths:
+      - '.github/workflows/sushi-assistant-verify.yml'
+      - 'sushi-assistant/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm the Sushi Assistant landing page is reachable
+        run: |
+          python3 - <<'PY'
+          import urllib.request,time
+          root="https://chadi001.github.io/sushimito/sushi-assistant/"
+          for attempt in range(16):
+              try:
+                  with urllib.request.urlopen(root,timeout=12) as response:
+                      html=response.read().decode()
+                      status=response.status
+                  with urllib.request.urlopen(root+"sw.js",timeout=12) as response:
+                      sw=response.read().decode()
+                      swstatus=response.status
+                  assert status == 200 and swstatus == 200
+                  assert "Sushi Assistant" in html and "mito-sushi-assistant-v15-valid-0ca144da" in html
+                  assert "mito-sushi-assistant-v15-valid-0ca144da" in sw
+                  print("OK: "+root+" (HTTP 200)")
+                  print("OK: service worker (HTTP 200)")
+                  print("NOTICE: The application photos and recipes require ZIP import on each device.")
+                  break
+              except Exception as err:
+                  if attempt==15: raise
+                  print("Still publishing:",str(err));time.sleep(10)
+          PY
