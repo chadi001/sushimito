@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#09100d"><meta name="robots" content="noindex,nofollow"><title>MITO — Assistant sushi · Validation V13</title><style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#09100d;color:#eff4ef}*{box-sizing:border-box}body{margin:0;line-height:1.55}header{padding:22px max(22px,calc((100vw - 1000px)/2));border-bottom:1px solid #2b3b31;background:#101c16}.brand{font-size:26px;font-weight:800}.tag{font-size:12px;letter-spacing:.14em;color:#b6d9a7}main{max-width:1000px;padding:44px 22px 60px;margin:auto}h1{font-size:clamp(28px,5vw,46px);line-height:1.15;margin:10px 0 20px}h2{font-size:19px;margin:0 0 12px}.lead{font-size:18px;max-width:740px;color:#cedbce}.panel{padding:26px;border:1px solid #334738;border-radius:18px;background:#132018;margin:24px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:15px;border:1px solid #2b3d30;border-radius:12px}.stat strong{display:block;font-size:29px;color:#b6d9a7}.stat span{font-size:14px}.button,button{font:inherit;text-decoration:none;background:#b6d9a7;color:#102013;border:0;border-radius:10px;padding:13px 19px;font-weight:700;display:inline-block;cursor:pointer}.secondary{background:#24392b;color:#ecf5e8;border:1px solid #45614b}button:disabled{opacity:.5;cursor:default}input[type=file]{display:block;width:100%;padding:14px;border:1px dashed #6a936c;border-radius:10px;margin:18px 0;background:#0b140f}input::file-selector-button{background:#b6d9a7;color:#102013;padding:10px;border:0;border-radius:6px;margin-right:12px;font-weight:700}a{color:#c5e8b8}.muted{color:#aebfae;font-size:14px}.notice{border-left:3px solid #e1bf76;padding:10px 16px;background:#29261b}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}progress{width:100%;height:18px;accent-color:#b6d9a7}#status{white-space:pre-wrap;overflow-wrap:anywhere}footer{border-top:1px solid #2b3b31;padding-top:18px;margin-top:36px;font-size:13px;color:#aebfae}[hidden]{display:none!important}@media(max-width:650px){main{padding-top:25px}.panel{padding:18px}.grid{grid-template-columns:1fr}.stat strong{font-size:24px}.stat{display:flex;align-items:center;gap:12px}}
+</style></head><body>
+<header><div class="brand">金 MITO</div><div class="tag">ASSISTANT SUSHI · ACCÈS DE VALIDATION</div></header>
+<main><div class="tag">VERSION 13 · DOSSIER LOCAL</div><h1>Les recettes, les photos,<br>et tes remarques au même endroit.</h1><p class="lead">Ce portail ouvre l’application complète à partir du ZIP fourni dans la conversation. Les photographies ne sont pas encore hébergées sur GitHub : elles sont chargées une fois dans ton navigateur, sans être envoyées à un serveur.</p>
+<div class="grid"><div class="stat"><strong>92</strong><span>fiches avec leur source photographique</span></div><div class="stat"><strong>104</strong><span>photos de produits et de formats</span></div><div class="stat"><strong>39</strong><span>vignettes d’ingrédients tirées du guide</span></div></div>
+<section class="panel"><h2 id="loadTitle">Charger le dossier sur cet appareil</h2><p>Télécharge le fichier <b>MITO_Assistant_Sushi_V13_Validation_Netlify.zip</b> depuis la conversation, puis sélectionne-le ici. Ne le décompresse pas pour cette opération.</p><input id="bundle" type="file" accept=".zip,application/zip" aria-label="Choisir le ZIP MITO V13" disabled><progress id="progress" value="0" max="100" hidden></progress><p id="status" role="status" aria-live="polite">Activation du lecteur local…</p><div id="ready" hidden><div class="actions"><a class="button" href="application/index.html">Ouvrir l’assistant</a><a class="button secondary" href="application/index.html?priority=2">Produits prioritaires ×2</a><a class="button secondary" href="application/index.html?mode=glasses">Mode lecture</a></div><p class="muted">Dossier disponible dans ce navigateur. Sur un autre appareil ou après suppression des données du site, il faut importer le ZIP de nouveau.</p><button id="remove" class="secondary" type="button">Effacer uniquement le dossier local</button></div></section>
+<section class="panel"><h2>Contrôler une fiche et signaler une correction</h2><p>Dans l’assistant, ouvre un produit puis touche <b>« Valider / remarquer »</b>. Tu peux vérifier le nombre de pièces, leur position, les ingrédients et le code de balance. Enregistre ta remarque, puis utilise <b>« Exporter mes remarques »</b> pour obtenir le fichier à me transmettre dans la conversation.</p><p class="muted">Les remarques ne sont pas envoyées automatiquement et ne sont pas synchronisées entre appareils. Pour les combos, chaque composant disponible ouvre sa recette; le bouton Retour ramène au combo précédent.</p></section>
+<div class="notice"><b>Version de consultation à valider.</b> Les fiches MITO restent la référence. Trois fiches ne sont pas disponibles : onigiri thon 83130, Hand Roll saumon 83562 et Hand Roll crevette 83561. Les codes partagés et les contradictions du guide sont signalés, sans correction inventée. Le mode Lecture est une interface web, pas une application native pour lunettes.</div>
+<footer>Répertoire GitHub : <a href="https://github.com/chadi001/sushimito/tree/main/assitant-sushi">chadi001/sushimito/assitant-sushi</a>.<br>Le ZIP complet peut aussi être décompressé et déployé directement sur Netlify. Les autres sites et la page d’accueil du dépôt n’ont pas été remplacés.</footer>
+</main>
+<script>
+'use strict';
+const EXPECTED='80345d32ca296870ea96ff672415f4c14bc404fc581eba615d4a794da66a4209';
+const CACHE='mito-validation-bundle-80345d32ca296';
+const BASE=new URL('./',location.href);
+const $=id=>document.getElementById(id);
+const TYPES={html:'text/html; charset=utf-8',js:'application/javascript; charset=utf-8',css:'text/css; charset=utf-8',json:'application/json; charset=utf-8',webmanifest:'application/manifest+json',webp:'image/webp',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',svg:'image/svg+xml',txt:'text/plain; charset=utf-8',toml:'text/plain; charset=utf-8'};
+function message(s){$('status').textContent=s;}
+function filesInZip(buffer){
+ const v=new DataView(buffer),decoder=new TextDecoder('utf-8',{fatal:true}),files=[];let p=0;
+ while(p+30<=v.byteLength&&v.getUint32(p,true)===0x04034b50){
+  const flags=v.getUint16(p+6,true),method=v.getUint16(p+8,true),size=v.getUint32(p+18,true),nameLength=v.getUint16(p+26,true),extra=v.getUint16(p+28,true),start=p+30+nameLength+extra;
+  if(flags&9||method!==0)throw new Error('Cette archive n’est pas au format attendu. Utilise exactement le ZIP V13 fourni.');
+  if(start+size>v.byteLength)throw new Error('Archive incomplète. Télécharge le ZIP de nouveau.');
+  const name=decoder.decode(new Uint8Array(buffer,p+30,nameLength));
+  if(name.startsWith('/')||name.includes('\\')||name.split('/').some(part=>part==='..')||name.includes('\0'))throw new Error('Chemin non autorisé dans le ZIP.');
+  if(!name.endsWith('/'))files.push({name,start,size});p=start+size;
+  if(files.length>600)throw new Error('Archive trop volumineuse.');
+ }
+ for(const name of ['index.html','app.js','records.js','style.css'])if(!files.some(f=>f.name===name))throw new Error('Fichier requis absent : '+name);
+ if(files.length!==313)throw new Error('Le nombre de fichiers ne correspond pas au dossier V13.');
+ return files;
+}
+async function showSaved(){
+ const c=await caches.open(CACHE),r=await c.match(new URL('application/_bundle.json',BASE).href);
+ if(r){const m=await r.json();if(m.sha256===EXPECTED){$('ready').hidden=false;$('loadTitle').textContent='Dossier prêt sur cet appareil';message('Le dossier complet est chargé. Tu peux ouvrir l’assistant.');return true;}}
+ $('ready').hidden=true;return false;
+}
+async function setup(){
+ if(!window.isSecureContext||!('serviceWorker'in navigator)||!('caches'in window)||!crypto.subtle)throw new Error('Ce navigateur ne permet pas ce chargement local. Ouvre ce portail en HTTPS dans un navigateur compatible, ou utilise le ZIP décompressé sur ordinateur / Netlify.');
+ await navigator.serviceWorker.register(new URL('reader-sw.js',BASE).href,{scope:BASE.pathname});
+ await navigator.serviceWorker.ready;
+ if(!navigator.serviceWorker.controller)await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Le lecteur local ne s’est pas activé. Recharge cette page.')),20000);navigator.serviceWorker.addEventListener('controllerchange',()=>{clearTimeout(timer);resolve();},{once:true});});
+ $('bundle').disabled=false;if(!await showSaved())message('Choisis le ZIP fourni. Le chargement et la vérification se font sur ton appareil.');
+}
+$('bundle').addEventListener('change',async()=>{
+ const file=$('bundle').files[0];if(!file)return;
+ $('bundle').disabled=true;$('progress').hidden=false;$('progress').value=0;$('ready').hidden=true;
+ try{
+  if(file.size>100*1024*1024)throw new Error('Fichier trop volumineux : sélectionner le ZIP MITO V13.');
+  message('Vérification de l’intégrité du dossier…');const bytes=await file.arrayBuffer();
+  const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(x=>x.toString(16).padStart(2,'0')).join('');
+  if(digest!==EXPECTED)throw new Error('Ce fichier ne correspond pas à la version V13 fournie. Aucun fichier n’a été ouvert. Sélectionne le ZIP exact depuis la conversation.');
+  const files=filesInZip(bytes),cache=await caches.open(CACHE);
+  for(let n=0;n<files.length;n++){
+   const f=files[n],ext=f.name.split('.').pop().toLowerCase(),body=new Blob([new Uint8Array(bytes,f.start,f.size)]);
+   await cache.put(new URL('application/'+f.name,BASE).href,new Response(body,{status:200,headers:{'Content-Type':TYPES[ext]||'application/octet-stream','X-Content-Type-Options':'nosniff'}}));
+   if(n%8===0){$('progress').value=Math.round(100*(n+1)/files.length);message('Chargement local : '+(n+1)+' / '+files.length+' fichiers.');}
+  }
+  await cache.put(new URL('application/_bundle.json',BASE).href,new Response(JSON.stringify({sha256:EXPECTED,files:files.length,loadedAt:new Date().toISOString()}),{headers:{'Content-Type':'application/json'}}));
+  $('progress').value=100;await showSaved();
+ }catch(e){message(e.name==='QuotaExceededError'?'Espace de stockage insuffisant dans ce navigateur. Utilise le dossier ZIP décompressé ou déploie-le sur Netlify.':e.message||String(e));}
+ finally{$('bundle').disabled=false;}
+});
+$('remove').addEventListener('click',async()=>{if(confirm('Effacer les photos et recettes enregistrées dans ce navigateur ? Les remarques sont conservées.')){await caches.delete(CACHE);$('ready').hidden=true;$('loadTitle').textContent='Charger le dossier sur cet appareil';message('Dossier local effacé. Les remarques n’ont pas été supprimées.');$('bundle').value='';}});
+setup().catch(e=>message(e.message||String(e)));
+</script></body></html>
