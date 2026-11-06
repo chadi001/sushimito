@@ -1,0 +1,30 @@
+name: Verify live Sushi Assistant direct access
+on:
+  push:
+    paths: ['.github/workflows/sushi-assistant-live-check.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check GitHub Pages HTML, JavaScript, ingredients and product photos
+        run: |
+          python3 - <<'PY'
+          import urllib.request,time
+          base='https://chadi001.github.io/sushimito/sushi-assistant/'
+          checks=['index.html','data.js','app.js','images/tsunami_12mcx.png','images/futo_08_fuji.png','images/ingredients/01.png']
+          for i in range(15):
+            try:
+              for path in checks:
+                with urllib.request.urlopen(base+path,timeout=20) as r:
+                  data=r.read()
+                  if r.status!=200 or len(data)<100:raise RuntimeError(path+' invalid')
+                  print(path, r.status, len(data),r.headers.get('content-type'))
+              print('LIVE_READY',base)
+              break
+            except Exception as ex:
+              if i==14:raise
+              print('retry',i,ex);time.sleep(10)
+          PY
