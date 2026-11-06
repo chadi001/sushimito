@@ -1,0 +1,73 @@
+name: Publish directly accessible Sushi Assistant on GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/sushi-assistant-publish-direct.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch existing public MITO app as standalone GitHub site
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.parse,re,pathlib,time,os
+          base="https://mito-sushi-assistant.netlify.app/"
+          root=pathlib.Path('sushi-assistant')
+          root.mkdir(exist_ok=True)
+          paths={"index.html","app.js","data.js","style.css","glasses.html","glasses-v10.js","manifest.webmanifest"}
+          fetched=set()
+          def urlread(path):
+              request=urllib.request.Request(urllib.parse.urljoin(base,path),headers={'User-Agent':'SushiAssistantGitHubMirror/1.0'})
+              with urllib.request.urlopen(request,timeout=40) as r:
+                  mime=r.headers.get('Content-Type','')
+                  if r.status!=200:return None,mime
+                  return r.read(),mime
+          # Only download known assets linked by the actual published JavaScript or HTML.
+          for round in range(5):
+              new=list(paths-fetched)
+              if not new:break
+              for path in new:
+                  fetched.add(path)
+                  if path.startswith("/") or ".." in pathlib.PurePosixPath(path).parts or not path or path.startswith(("http:", "https:")):continue
+                  try:
+                      payload,mime=urlread(path)
+                  except Exception as ex:
+                      print("SKIP",path,str(ex));continue
+                  if payload is None or len(payload)>5_000_000:continue
+                  if path.endswith(('.html','.js','.css','.json','.webmanifest')):
+                      text=payload.decode('utf-8','replace')
+                      if path=='index.html':
+                          # Explicit version label, without pretending this is the V15 source.
+                          notice='<aside style="position:relative;background:#2a251a;color:#ffe9bf;padding:9px 18px;font:600 13px system-ui;text-align:center">Version GitHub consultable directement · copie de la version publique précédente; dernières images V15 non intégrées · vérifier les recettes sur les fiches MITO</aside>'
+                          text=re.sub(r'(<body[^>]*>)',r'\1'+notice,text,count=1,flags=re.I)
+                      payload=text.encode()
+                      for m in re.findall(r'''["']((?:images|assets)/[^"'\s]+?\.(?:png|jpg|jpeg|webp|svg|gif))["']''',text,flags=re.I):
+                          paths.add(m)
+                      for m in re.findall(r'''(?:src|href)=["']([^"']+\.(?:js|css|webmanifest))["']''',text):
+                          if not m.startswith(('http:','https:','//')):paths.add(m)
+                  out=root/path
+                  out.parent.mkdir(parents=True,exist_ok=True)
+                  out.write_bytes(payload)
+                  print("OK",path,len(payload),mime)
+          assert (root/'index.html').exists() and (root/'data.js').exists() and (root/'app.js').exists()
+          assert len(list(root.rglob('*')))>=50, "Images not downloaded; refusing to publish incomplete site"
+          print("Published asset files",sum(f.is_file() for f in root.rglob('*')))
+          PY
+      - name: Commit GitHub-site contents
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sushi-assistant/
+          git diff --cached --quiet && { echo "Nothing changed"; exit 0; }
+          git commit -m "Publish direct-open Sushi Assistant on GitHub Pages"
+          git push origin HEAD:main
