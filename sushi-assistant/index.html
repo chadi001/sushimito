@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08120e"><title>Sushi Assistant | MITO · Validation GitHub</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#f0f7f0;background:#080e0a}*{box-sizing:border-box}body{margin:0;min-height:100vh}header{border-bottom:1px solid #254030;padding:21px max(22px,calc((100% - 1020px)/2));background:#111c15}.brand{font-size:26px;font-weight:850;letter-spacing:.025em}.brand b{color:#c2ec9a}.sub{color:#a4bca6;font-size:12px;letter-spacing:.12em;font-weight:700;margin-top:4px}main{max-width:1030px;margin:auto;padding:45px 22px 80px}h1{font-size:clamp(30px,5vw,53px);line-height:1.07;margin:16px 0}h2{font-size:23px;margin:0 0 14px}p{line-height:1.65;color:#d4e4d6}.desc{max-width:750px;font-size:18px}.pill{display:inline-block;border:1px solid #52764e;color:#c7e7b5;padding:5px 11px;border-radius:100px;font-size:12px;font-weight:700}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:28px 0}.metric{border:1px solid #294331;background:#112017;padding:18px;border-radius:15px}.metric strong{font-size:32px;display:block;color:#caeda8}.metric small{font-size:13px;color:#c9daca}.panel{border:1px solid #3b5b46;border-radius:19px;background:#132219;padding:25px;margin-top:24px}.action{display:inline-flex;gap:8px;align-items:center;justify-content:center;background:#c8edaa;color:#122117;text-decoration:none;font:700 16px system-ui;border:0;border-radius:10px;padding:13px 20px;cursor:pointer}.action.secondary{background:#24382b;color:#ebf6e7;border:1px solid #56705b}.action[disabled]{opacity:.48;cursor:not-allowed}input[type=file]{padding:17px;border:1px dashed #6e9f79;border-radius:11px;background:#0c1810;width:100%;margin:13px 0;color:#eaf6e8}input::file-selector-button{background:#a9d68e;color:#142213;border:0;border-radius:8px;padding:9px;margin-right:14px;font-weight:700}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}#status{font-size:14px;color:#d5e9d4;white-space:pre-wrap}progress{width:100%;height:13px;accent-color:#b6e695}.muted{font-size:13px;color:#afc6b1}.warn{border-left:4px solid #e2bd6a;background:#2b261a;padding:15px 20px;color:#f5e7c6;margin-top:25px}a{color:#bcebab}footer{margin-top:35px;color:#a5b5ab;font-size:13px;line-height:1.7}@media(max-width:680px){main{padding-top:24px}.grid{grid-template-columns:1fr}.metric{padding:10px 16px;display:flex;align-items:center;gap:13px}.metric strong{font-size:23px}.panel{padding:17px}}
+</style></head><body><header><div class="brand">🍣 Sushi <b>Assistant</b></div><div class="sub">MITO · GITHUB PAGES · PORTAIL DE VALIDATION</div></header>
+<main><span class="pill">Version complète V15 · dossier de validation</span><h1>Recettes et visuels,<br>au même endroit.</h1><p class="desc">Ouvre l’assistant sur ordinateur, tablette ou téléphone. Les fiches, photos et codes sont inclus dans le ZIP fourni dans notre conversation : ce portail les charge localement, <strong>sans les transmettre à un serveur</strong>.</p>
+<div class="grid"><div class="metric"><strong>84+</strong><small>Fiches de produits et composants</small></div><div class="metric"><strong>Formats</strong><small>6 / 8 / 10 / 12 morceaux et combos</small></div><div class="metric"><strong>Retour</strong><small>Navigation composant ↔ combo</small></div></div>
+<section class="panel"><h2 id="heading">Accéder à l’application</h2><p>Télécharge <strong>Assitant_Sushi_MITO_Validation.zip</strong> depuis la conversation ChatGPT, puis sélectionne le fichier ici. Il restera sur cet appareil. Tu n’as pas besoin de décompresser le ZIP.</p>
+<input type="file" id="zip" accept=".zip,application/zip" disabled><progress id="progress" max="100" value="0" hidden></progress><p id="status" role="status" aria-live="polite">Activation du lecteur…</p>
+<div id="ready" hidden><div class="actions"><a class="action" href="./app/index.html">Ouvrir Sushi Assistant</a><a class="action secondary" href="./app/selection-2.html">Sélection « 2 »</a><a class="action secondary" href="./app/glasses.html">Mode lecture / lunettes</a></div><p class="muted">Une fois chargé, le contenu reste disponible sur cet appareil jusqu’à l’effacement des données du navigateur.</p><button class="action secondary" type="button" id="clear">Effacer le dossier chargé</button></div></section>
+<section class="panel"><h2>Vérifier et transmettre tes remarques</h2><p>Sur chaque fiche, utilise <b>« Valider cette fiche / noter une correction »</b> pour préciser le code, le nombre de morceaux, les ingrédients, les condiments ou leur position dans la boîte. Exporte ensuite les remarques et envoie-les dans la conversation pour correction.</p><p class="muted">Les données de validation sont enregistrées uniquement dans ton navigateur : elles ne sont pas envoyées automatiquement et ne se synchronisent pas entre tes appareils.</p></section>
+<div class="warn"><strong>Référence de production :</strong> les photos et fiches MITO originales font foi. Les visuels photographiques n’ont pas été certifiés un à un; ne pas substituer une illustration IA à une recette. Certains codes de balance et formats de contenants nécessitent une confirmation MITO/IGA.</div>
+<footer>Dossier GitHub : <a href="https://github.com/chadi001/sushimito/tree/main/sushi-assistant">sushimito / sushi-assistant</a>. Cette publication ne modifie pas Netlify. Pour un accès sans import de ZIP sur chaque appareil, un hébergement direct des photographies dans GitHub sera nécessaire, après validation et autorisation de leur diffusion.</footer>
+</main><script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js" defer></script><script>
+"use strict";
+const BUNDLE="mito-sushi-assistant-v15-valid-0ca144da";
+const HASH="0ca144da1359002c382ac3156444f6e417801295dfb03e4247f01c36a065de6c";
+const ROOT=new URL("./",location.href),$=id=>document.getElementById(id);
+const mime={html:"text/html; charset=utf-8",js:"text/javascript; charset=utf-8",css:"text/css; charset=utf-8",json:"application/json; charset=utf-8",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp",svg:"image/svg+xml",webmanifest:"application/manifest+json",txt:"text/plain; charset=utf-8"};
+const say=s=>$("status").textContent=s;
+async function unzip(data){
+ const view=new DataView(data),files=[];let ptr=0;
+ while(ptr+30<=view.byteLength&&view.getUint32(ptr,true)===0x04034b50){
+  const flags=view.getUint16(ptr+6,true),method=view.getUint16(ptr+8,true),compressed=view.getUint32(ptr+18,true),uncompressed=view.getUint32(ptr+22,true),nlen=view.getUint16(ptr+26,true),xlen=view.getUint16(ptr+28,true),start=ptr+30+nlen+xlen;
+  if(flags&8)throw Error("Archive ZIP non prise en charge (descripteurs de données).");
+  if(compressed>3000000||uncompressed>4000000||start+compressed>data.byteLength)throw Error("Archive incorrecte ou fichier trop volumineux.");
+  const name=new TextDecoder().decode(new Uint8Array(data,ptr+30,nlen));
+  if(name.startsWith("/")||name.includes("\\")||name.split("/").includes(".."))throw Error("Chemin ZIP interdit.");
+  if(!name.endsWith("/")){
+   const bytes=new Uint8Array(data,start,compressed);let raw;
+   if(method===0)raw=bytes.slice();
+   else if(method===8){
+    if("DecompressionStream"in window){
+     try{raw=new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer());}catch(e){if(!window.fflate)throw Error("Ce navigateur ne décompresse pas le ZIP. Essaie Chrome ou Edge.");raw=window.fflate.inflateSync(bytes);}
+    }else{if(!window.fflate)throw Error("La bibliothèque ZIP n’est pas disponible.");raw=window.fflate.inflateSync(bytes);}
+   }else throw Error("Compression non prise en charge.");
+   if(raw.byteLength!==uncompressed)throw Error("Données ZIP incorrectes : "+name);
+   files.push({name,raw});
+  }
+  ptr=start+compressed;
+  if(files.length>450)throw Error("Trop de fichiers.");
+ }
+ if(files.length<270||!["index.html","app.js","data.js","style.css"].every(n=>files.some(f=>f.name===n)))throw Error("Ce dossier ne correspond pas à l’application MITO complète.");
+ return files;
+}
+async function stored(){const c=await caches.open(BUNDLE);const r=await c.match(new URL("app/_manifest.json",ROOT));if(!r)return false;const j=await r.json();return j.sha256===HASH;}
+async function start(){
+ if(!isSecureContext||!navigator.serviceWorker||!window.caches||!crypto?.subtle)throw Error("Le chargement nécessite un navigateur récent en HTTPS.");
+ await navigator.serviceWorker.register(new URL("sw.js",ROOT),{scope:ROOT.pathname});await navigator.serviceWorker.ready;
+ if(!navigator.serviceWorker.controller){
+   await new Promise((resolve,reject)=>{const t=setTimeout(()=>reject(Error("Recharge cette page pour activer le lecteur.")),15000);navigator.serviceWorker.addEventListener("controllerchange",()=>{clearTimeout(t);resolve();},{once:true});});
+ }
+ $("zip").disabled=false;
+ if(await stored()){$("ready").hidden=false;$("heading").textContent="Application prête";say("Le dossier est déjà chargé. Ouvre l’application.");}
+ else say("Sélectionne le ZIP V15 fourni dans la conversation.");
+}
+$("zip").addEventListener("change",async()=>{
+ const file=$("zip").files[0];if(!file)return;$("zip").disabled=true;$("ready").hidden=true;$("progress").hidden=false;$("progress").value=0;
+ try{
+  if(file.size>100000000)throw Error("Le fichier ZIP est trop volumineux.");
+  say("Vérification du fichier…");const data=await file.arrayBuffer();
+  const hash=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",data))).map(x=>x.toString(16).padStart(2,"0")).join("");
+  if(hash!==HASH)throw Error("Ce n’est pas la version ZIP V15 attendue. Télécharge de nouveau le fichier de la conversation.");
+  const entries=await unzip(data),cache=await caches.open(BUNDLE);
+  for(let i=0;i<entries.length;i++){
+   const entry=entries[i],extension=entry.name.split(".").pop().toLowerCase();
+   const url=new URL("app/"+entry.name,ROOT).href;
+   await cache.put(url,new Response(new Blob([entry.raw]),{headers:{"Content-Type":mime[extension]||"application/octet-stream","X-Content-Type-Options":"nosniff"}}));
+   if(i%7===0){$("progress").value=Math.floor(100*(i+1)/entries.length);say("Chargement local : "+(i+1)+" / "+entries.length);}
+  }
+  await cache.put(new URL("app/_manifest.json",ROOT),new Response(JSON.stringify({sha256:HASH,count:entries.length}),{headers:{"Content-Type":"application/json"}}));
+  $("progress").value=100;$("heading").textContent="Application prête";$("ready").hidden=false;say("Application complète chargée dans ce navigateur.");
+ }catch(e){say("Erreur : "+(e?.message||e));}finally{$("zip").disabled=false;}
+});
+$("clear").addEventListener("click",async()=>{if(confirm("Effacer le dossier de ce navigateur ? Les remarques enregistrées sont conservées.")){await caches.delete(BUNDLE);$("ready").hidden=true;$("heading").textContent="Accéder à l’application";say("Dossier supprimé.");}});
+start().catch(e=>say("Erreur : "+(e?.message||e)));
+</script></body></html>
